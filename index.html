@@ -3,68 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saif - Personal AI Assistant & Computer Services</title>
+    <title>Saif AI Assistant</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        html, body {
+            height: 100%;
             margin: 0;
             padding: 0;
+            overflow: hidden;
             background-color: #f8fafc;
-            color: #0f172a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
         }
-        .container {
-            max-width: 600px;
-            padding: 40px 20px;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            margin: 20px;
+        /* Botpress iframe/widget-কে পুরো স্ক্রিনে ছড়িয়ে দেওয়ার জন্য CSS */
+        iframe {
+            width: 100% !important;
+            height: 100% !important;
+            border: none !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
         }
-        h1 {
-            color: #1e3a8a;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #475569;
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-        .badge {
-            display: inline-block;
-            background-color: #e0e7ff;
-            color: #3730a3;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        .hint {
-            font-size: 14px;
-            color: #2563eb;
-            font-weight: bold;
+        .bpw-layout {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 100% !important;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="badge">AI Powered Support</div>
-        <h1>স্বাগতম! আমি সাইফ (Saif)</h1>
-        <p>পটুয়াখালী অনলাইন সার্ভিস সেন্টার ও কম্পিউটার শপে আপনাকে স্বাগতম। পাসপোর্ট ফটো, চাকরির আবেদন, কম্পিউটার ট্রাবলশুটিং বা যেকোনো তথ্যের জন্য নিচের চ্যাট আইকনে ক্লিক করুন।</p>
-        <div class="hint">👇 কথা বলতে নিচে ডানপাশের চ্যাট আইকনে ক্লিক করুন</div>
-    </div>
-
     <!-- Botpress Saif AI Chatbot Script -->
     <script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2026/08/27/17/20260827174335-S6IWMWHX.js" defer></script>
+
+    <script>
+        // পেজ লোড হওয়ার সাথে সাথে বটের চ্যাট উইন্ডো অটোমেটিক ওপেন হবে
+        window.addEventListener('load', function() {
+            var interval = setInterval(function() {
+                if (window.botpressWebChat) {
+                    window.botpressWebChat.sendEvent({ type: 'show' });
+                    clearInterval(interval);
+                }
+            }, 500);
+        });
+    </script>
 
 </body>
 </html>
