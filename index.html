@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saif AI Assistant</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    
     <style>
         html, body {
             height: 100%;
@@ -12,7 +15,6 @@
             overflow: hidden;
             background-color: #f8fafc;
         }
-        /* Botpress iframe/widget-কে পুরো স্ক্রিনে ছড়িয়ে দেওয়ার জন্য CSS */
         iframe {
             width: 100% !important;
             height: 100% !important;
@@ -21,21 +23,48 @@
             top: 0 !important;
             left: 0 !important;
         }
-        .bpw-layout {
-            width: 100% !important;
-            height: 100% !important;
-            max-height: 100% !important;
+        /* Install Popup Box Style */
+        #installBanner {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            border: 2px solid #2563eb;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 99999;
+            text-align: center;
+            font-family: sans-serif;
+        }
+        #installBanner button {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Botpress Saif AI Chatbot Script -->
+    <!-- Install Banner -->
+    <div id="installBanner">
+        <span>📲 app hisebe download/install korben?</span>
+        <button id="installBtn">Install</button>
+    </div>
+
+    <!-- Botpress Saif AI Script -->
     <script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2026/08/27/17/20260827174335-S6IWMWHX.js" defer></script>
 
     <script>
-        // পেজ লোড হওয়ার সাথে সাথে বটের চ্যাট উইন্ডো অটোমেটিক ওপেন হবে
+        // Fullscreen Chat Setup
         window.addEventListener('load', function() {
             var interval = setInterval(function() {
                 if (window.botpressWebChat) {
@@ -43,6 +72,27 @@
                     clearInterval(interval);
                 }
             }, 500);
+        });
+
+        // App Download/Install Prompt
+        let deferredPrompt;
+        const installBanner = document.getElementById('installBanner');
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.style.display = 'block';
+        });
+
+        installBtn.addEventListener('click', () => {
+            installBanner.style.display = 'none';
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    deferredPrompt = null;
+                });
+            }
         });
     </script>
 
