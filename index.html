@@ -6,92 +6,98 @@
     <title>Saif AI Assistant</title>
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#2563eb">
-    
     <style>
-        html, body {
-            height: 100%;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            overflow: hidden;
-            background-color: #f8fafc;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        iframe {
-            width: 100% !important;
-            height: 100% !important;
-            border: none !important;
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-        }
-        /* Install Popup Box Style */
-        #installBanner {
-            display: none;
-            position: fixed;
-            top: 15px;
-            left: 50%;
-            transform: translateX(-50%);
+        .card {
             background: #ffffff;
-            border: 2px solid #2563eb;
-            padding: 12px 20px;
-            border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 99999;
+            padding: 30px 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
             text-align: center;
-            font-family: sans-serif;
+            max-width: 400px;
+            width: 85%;
         }
-        #installBanner button {
+        h2 {
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        #installBtn {
             background-color: #2563eb;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
             font-weight: bold;
             cursor: pointer;
-            margin-left: 10px;
+            display: none;
+            margin: 0 auto 15px auto;
+        }
+        #installBtn:hover {
+            background-color: #1d4ed8;
+        }
+        .status {
+            font-size: 13px;
+            color: #2563eb;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
-    <!-- Install Banner -->
-    <div id="installBanner">
-        <span>📲 app hisebe download/install korben?</span>
-        <button id="installBtn">Install</button>
+    <div class="card">
+        <h2>Saif AI Assistant</h2>
+        <p>পটুয়াখালী অনলাইন সার্ভিস ও প্রযুক্তি সহায়তায় আপনাকে স্বাগতম।</p>
+        
+        <!-- App Install Button -->
+        <button id="installBtn">📲 অ্যাপ ইনস্টল করুন</button>
+
+        <div class="status">👇 নিচে ডানপাশের চ্যাট আইকনে ক্লিক করুন</div>
     </div>
 
-    <!-- Botpress Saif AI Script -->
+    <!-- Botpress Scripts -->
     <script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2026/08/27/17/20260827174335-S6IWMWHX.js" defer></script>
 
     <script>
-        // Fullscreen Chat Setup
+        // Auto open chat window after load
         window.addEventListener('load', function() {
-            var interval = setInterval(function() {
+            var checkExist = setInterval(function() {
                 if (window.botpressWebChat) {
                     window.botpressWebChat.sendEvent({ type: 'show' });
-                    clearInterval(interval);
+                    clearInterval(checkExist);
                 }
             }, 500);
         });
 
-        // App Download/Install Prompt
+        // Chrome PWA Install Prompt
         let deferredPrompt;
-        const installBanner = document.getElementById('installBanner');
         const installBtn = document.getElementById('installBtn');
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            installBanner.style.display = 'block';
+            installBtn.style.display = 'block';
         });
 
         installBtn.addEventListener('click', () => {
-            installBanner.style.display = 'none';
+            installBtn.style.display = 'none';
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    deferredPrompt = null;
-                });
+                deferredPrompt = null;
             }
         });
     </script>
