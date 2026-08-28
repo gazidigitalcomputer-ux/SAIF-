@@ -4,76 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saif AI Assistant</title>
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#2563eb">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        html, body {
+            height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #f0f4f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            overflow: hidden;
+            background-color: #0f172a;
         }
-        .card {
-            background: #ffffff;
-            padding: 30px 20px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            text-align: center;
-            max-width: 400px;
-            width: 85%;
-        }
-        h2 {
-            color: #1e293b;
-            margin-bottom: 8px;
-        }
-        p {
-            color: #64748b;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-        #installBtn {
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            display: none;
-            margin: 0 auto 15px auto;
-        }
-        #installBtn:hover {
-            background-color: #1d4ed8;
-        }
-        .status {
-            font-size: 13px;
-            color: #2563eb;
-            font-weight: 600;
+        iframe {
+            width: 100% !important;
+            height: 100% !important;
+            border: none !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h2>Saif AI Assistant</h2>
-        <p>পটুয়াখালী অনলাইন সার্ভিস ও প্রযুক্তি সহায়তায় আপনাকে স্বাগতম।</p>
-        
-        <!-- App Install Button -->
-        <button id="installBtn">📲 অ্যাপ ইনস্টল করুন</button>
-
-        <div class="status">👇 নিচে ডানপাশের চ্যাট আইকনে ক্লিক করুন</div>
-    </div>
-
-    <!-- Botpress Scripts -->
+    <!-- Botpress Webchat Injection -->
     <script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
     <script src="https://files.bpcontent.cloud/2026/08/27/17/20260827174335-S6IWMWHX.js" defer></script>
 
     <script>
-        // Auto open chat window after load
         window.addEventListener('load', function() {
             var checkExist = setInterval(function() {
                 if (window.botpressWebChat) {
@@ -81,24 +36,6 @@
                     clearInterval(checkExist);
                 }
             }, 500);
-        });
-
-        // Chrome PWA Install Prompt
-        let deferredPrompt;
-        const installBtn = document.getElementById('installBtn');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'block';
-        });
-
-        installBtn.addEventListener('click', () => {
-            installBtn.style.display = 'none';
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt = null;
-            }
         });
     </script>
 
